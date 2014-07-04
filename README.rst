@@ -34,6 +34,7 @@ FloatArrayField     FloatField          double precision[]
 TextArrayField      TextField           text[]
 CharArrayField      CharField           character varying[]
 DateArrayField      DateField           date[]
+DateTimeArrayField  DateTimeField       timestamp[]
 =================== =================== ================
 
 Custom Fields

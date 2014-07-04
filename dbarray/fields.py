@@ -37,6 +37,7 @@ __all__ = (
         'TextArrayField',
         'CharArrayField',
         'DateArrayField',
+        'DateTimeArrayField',
     )
 
 def require_postgres(connection):
@@ -185,3 +186,24 @@ class DateArrayField(ArrayFieldBase, DateField):
         if not prepared:
             value = self.get_prep_value(value)
         return value
+
+    def value_to_string(self, obj):
+        val = self._get_val_from_obj(obj)
+        return '' if val is None else [i.isoformat() for i in val]
+
+
+class DateTimeField(models.DateTimeField):
+    def get_prep_value(self, value):
+        return super(DateTimeField, self).to_python(value)
+
+
+@add_metaclass(ArrayFieldMetaclass)
+class DateTimeArrayField(ArrayFieldBase, DateTimeField):
+    def get_db_prep_value(self, value, connection, prepared=False):
+        if not prepared:
+            value = self.get_prep_value(value)
+        return value
+
+    def value_to_string(self, obj):
+        val = self._get_val_from_obj(obj)
+        return '' if val is None else [i.isoformat() for i in val]
